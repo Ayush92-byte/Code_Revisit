@@ -57,3 +57,59 @@ class Solution {
 
 //Space Complexity : O(N) where N is the number of nodes in the linked list as the only extra additional space allocated it
 // to create the copied list without creating any other additional data structures.
+ 
+void insertCopyNode(Node* head)
+{
+    Node* temp = head;
+    while(temp != NULL)
+    {
+        Node* copyNode = new Node(temp->data);
+        copyNode->next = temp->next;
+        temp->next = copyNode;
+        temp = temp->next->next;
+    }
+}
+
+void connectRandom(Node* head)
+{
+    Node* temp = head;
+    
+    while(temp != NULL)
+    {
+        Node* copyNode = temp->next;
+        if(temp->random)
+        {
+            copyNode->random = temp->random->next;
+        }
+        else
+        {
+            copyNode->random = NULL;
+        }
+        temp = temp->next->next;
+    }
+}
+
+Node* getDeepCopy(Node* head)
+{
+    Node* dummy = new Node(-1);
+    Node* res = dummy;
+    Node* temp = head;
+    while(temp != NULL)
+    {
+        res->next = temp->next;
+        res = res->next;
+        
+        temp->next = temp->next->next;
+        temp = temp->next;
+    }
+    return dummy->next;
+}
+class Solution {
+  public:
+    Node *copyList(Node *head) {
+        // Write your code here
+        insertCopyNode(head);
+        connectRandom(head);
+        return getDeepCopy(head);
+    }
+};
